@@ -55,7 +55,7 @@ const ListingDetail = () => {
             <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between">
                 <p className="text-sm text-gray-500">Listed by <span className="font-medium text-gray-900">{listing.sellerName}</span></p>
                 {isOwner && (
-                    <button onClick={handleDelete} className="text-sm text-red-600 hover:text-red-700 font-medium">
+                    <button onClick={handleDelete} className="text-sm text-red-600 hover:text-red-700 font-medium cursor-pointer">
                         Delete listing
                     </button>
                 )}
