@@ -3,35 +3,56 @@ const { randomUUID } = require('crypto');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, PutCommand, GetCommand, ScanCommand, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
 const { verifyToken } = require('./authRoutes');
+
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
+
 const router = express.Router();
 
 //API to create a listing (a game)
 router.post('/', verifyToken, async (req, res) => {
-    const { gameName, description, price, type, imageUrl } = req.body;
+    const { gameId, description, price, type, imageUrl } = req.body;
 
-    if (!gameName || !price || !type) {
-        return res.status(400).json({ error: 'Missing gameName, price, or type' });
+    if (!gameId || !price || !type) {
+        return res.status(400).json({ error: 'Missing gameId, price, or type' });
     }
 
-    const listing = {
-        listingId: randomUUID(),
-        gameName,
-        description: description || '',
-        price,
-        type, //sell or trade
-        imageUrl: imageUrl || null,
-        sellerEmail: req.user.email,
-        sellerName: req.user.name,
-        createdAt: new Date().toISOString(),
-    };
-
     try {
+        // Search metadata from games table
+        const gameResult = await docClient.send(new GetCommand({
+            TableName: 'BoardGameTrade-Games',
+            Key: { gameId: String(gameId) },
+        }));
+
+        if (!gameResult.Item) {
+            return res.status(404).json({ error: 'Game not found. Please pick a game from search results.' });
+        }
+
+        const game = gameResult.Item;
+
+        const listing = {
+            listingId: randomUUID(),
+            gameId: game.gameId,
+            gameName: game.name,
+            gameYearPublished: game.yearPublished,
+            gameRating: game.rating,
+            gameComplexity: game.complexity,
+            gameMinPlayers: game.minPlayers,
+            gameMaxPlayers: game.maxPlayers,
+            description: description || '',
+            price,
+            type, // "sell" or "trade"
+            imageUrl: imageUrl || null,
+            sellerEmail: req.user.email,
+            sellerName: req.user.name,
+            createdAt: new Date().toISOString(),
+        };
+
         await docClient.send(new PutCommand({
             TableName: 'BoardGameTrade-Listings',
             Item: listing,
         }));
+
         res.status(201).json(listing);
     } catch (err) {
         console.error(err);
@@ -39,7 +60,7 @@ router.post('/', verifyToken, async (req, res) => {
     }
 });
 
-//API to get all listings
+//API tp get all listings 
 router.get('/', async (req, res) => {
     try {
         const result = await docClient.send(new ScanCommand({
