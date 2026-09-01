@@ -19,8 +19,9 @@ const CreateListing = () => {
         setQuery(value);
         setSelectedGame(null);
         if (value.length < 2) return setResults([]);
-        const res = await api.get(`/bgg/search?query=${encodeURIComponent(value)}`);
-        setResults(res.data);
+        const res = await fetch(`${import.meta.env.VITE_BGG_LAMBDA_URL}?query=${encodeURIComponent(value)}`);
+        const data = await res.json();
+        setResults(data);
     };
 
     const handleImageChange = (e) => {

@@ -60,7 +60,7 @@ router.post('/', verifyToken, async (req, res) => {
     }
 });
 
-//API tp get all listings 
+//API to get all listings 
 router.get('/', async (req, res) => {
     try {
         const result = await docClient.send(new ScanCommand({
