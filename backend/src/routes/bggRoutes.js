@@ -28,20 +28,4 @@ router.get('/search', async (req, res) => {
     }
 });
 
-//API to get metada game by id
-router.get('/thing/:id', async (req, res) => {
-    try {
-        const result = await docClient.send(new GetCommand({
-            TableName: 'BoardGameTrade-Games',
-            Key: { gameId: req.params.id },
-        }));
-
-        if (!result.Item) return res.status(404).json({ error: 'Game not found' });
-        res.json(result.Item);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Fetch failed' });
-    }
-});
-
 module.exports = router;
