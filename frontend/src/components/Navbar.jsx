@@ -29,14 +29,14 @@ const Navbar = () => {
                                 <User size={18} />
                                 {user.name}
                             </Link>
-                            <button onClick={handleLogout} className="text-gray-400 hover:text-gray-700">
+                            <button onClick={handleLogout} className="text-gray-400 hover:text-gray-700 cursor-pointer">
                                 <LogOut size={18} />
                             </button>
                         </>
                     ) : (
                         <>
-                            <Link to="/login" className="text-sm text-gray-700 hover:text-blue-600">Log in</Link>
-                            <Link to="/register" className="text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg">
+                            <Link to="/login" className="text-sm text-gray-700 hover:text-blue-600 cursor-pointer">Log in</Link>
+                            <Link to="/register" className="text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded-lg cursor-pointer">
                                 Sign up
                             </Link>
                         </>

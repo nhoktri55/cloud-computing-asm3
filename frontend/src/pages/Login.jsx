@@ -34,12 +34,12 @@ const Login = () => {
                     value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
                 {error && <p className="text-sm text-red-600">{error}</p>}
-                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg text-sm">
+                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg text-sm cursor-pointer">
                     Log in
                 </button>
             </form>
             <p className="text-sm text-gray-500 mt-4">
-                No account yet? <Link to="/register" className="text-blue-600 font-medium">Sign up</Link>
+                No account yet? <Link to="/register" className="text-blue-600 font-medium cursor-pointer hover:underline">Sign up</Link>
             </p>
         </div>
     );
