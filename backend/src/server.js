@@ -12,7 +12,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: [
+        'http://localhost:5173',
+        'http://boardgametrade-frontend-s3924585.s3-website-us-east-1.amazonaws.com',
+    ],
     credentials: true,
 }));
 
