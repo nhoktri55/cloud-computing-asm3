@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import CreateListing from './pages/CreateListing';
 import ListingDetail from './pages/ListingDetail';
 import Profile from './pages/Profile';
+import Trends from './pages/Trends';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
             <Route path="/listings/:id" element={<ListingDetail />} />
             <Route path="/create-listing" element={<ProtectedRoute><CreateListing /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/trends" element={<Trends />} />
           </Routes>
         </div>
       </BrowserRouter>

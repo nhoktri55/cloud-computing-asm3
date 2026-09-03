@@ -25,6 +25,9 @@ const Navbar = () => {
                                 <PlusCircle size={16} />
                                 New listing
                             </Link>
+                            <Link to="/trends" className="text-sm text-gray-700 hover:text-blue-600">
+                                Trends
+                            </Link>
                             <Link to="/profile" className="flex items-center gap-1.5 text-sm text-gray-700 hover:text-blue-600">
                                 <User size={18} />
                                 {user.name}
