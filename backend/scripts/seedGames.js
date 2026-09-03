@@ -5,6 +5,7 @@ require('dotenv').config();
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
 
+// list game was created by Claude
 const games = [
     { gameId: '1', name: 'Catan', yearPublished: 1995, minPlayers: 3, maxPlayers: 4, playingTime: 90, rating: 7.1, complexity: 2.3 },
     { gameId: '2', name: 'Ticket to Ride', yearPublished: 2004, minPlayers: 2, maxPlayers: 5, playingTime: 60, rating: 7.4, complexity: 1.8 },

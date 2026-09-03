@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from "../services/api";
 import { useAuth } from '../context/AuthContext';
+import ChatBox from '../components/ChatBox';
 
 const ListingDetail = () => {
     const { id } = useParams();
@@ -52,7 +53,7 @@ const ListingDetail = () => {
 
             {listing.description && <p className="text-gray-700 mt-4">{listing.description}</p>}
 
-            <div className="mt-6 pt-6 border-t border-gray-200 flex items-center justify-between">
+            <div className="mt-6 pt-6 border-t border-gray-200 flex flex-col items-center justify-between">
                 <p className="text-sm text-gray-500">Listed by <span className="font-medium text-gray-900">{listing.sellerName}</span></p>
                 {isOwner && (
                     <button onClick={handleDelete} className="text-sm text-red-600 hover:text-red-700 font-medium cursor-pointer">
@@ -60,6 +61,12 @@ const ListingDetail = () => {
                     </button>
                 )}
             </div>
+            {user && !isOwner && (
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                    <h2 className="text-sm font-medium text-gray-900 mb-3">Chat with seller</h2>
+                    <ChatBox listingId={listing.listingId} otherEmail={listing.sellerEmail} />
+                </div>
+            )}
         </div>
     );
 }
