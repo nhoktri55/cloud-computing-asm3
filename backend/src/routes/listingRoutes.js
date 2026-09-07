@@ -3,6 +3,7 @@ const { randomUUID } = require('crypto');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, PutCommand, GetCommand, ScanCommand, DeleteCommand } = require('@aws-sdk/lib-dynamodb');
 const { verifyToken } = require('./authRoutes');
+const { getGameById } = require('../utils/bggClient');
 
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
@@ -18,17 +19,12 @@ router.post('/', verifyToken, async (req, res) => {
     }
 
     try {
-        // Search metadata from games table
-        const gameResult = await docClient.send(new GetCommand({
-            TableName: 'BoardGameTrade-Games',
-            Key: { gameId: String(gameId) },
-        }));
+        // Get metadata live from BGG
+        const game = await getGameById(gameId);
 
-        if (!gameResult.Item) {
+        if (!game) {
             return res.status(404).json({ error: 'Game not found. Please pick a game from search results.' });
         }
-
-        const game = gameResult.Item;
 
         const listing = {
             listingId: randomUUID(),
