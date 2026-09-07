@@ -3,16 +3,25 @@ import { useParams, useNavigate } from 'react-router-dom';
 import api from "../services/api";
 import { useAuth } from '../context/AuthContext';
 import ChatBox from '../components/ChatBox';
+import { MessageCircle } from 'lucide-react';
 
 const ListingDetail = () => {
     const { id } = useParams();
     const [listing, setListing] = useState(null);
     const { user } = useAuth();
     const navigate = useNavigate();
+    const [conversations, setConversations] = useState([]);
+    const [activeChat, setActiveChat] = useState(null);
 
     useEffect(() => {
         api.get(`/listings/${id}`).then((res) => setListing(res.data));
     }, [id]);
+
+    useEffect(() => {
+        if (listing && user && listing.sellerEmail === user.email) {
+            api.get(`/chat/listing/${listing.listingId}`).then((res) => setConversations(res.data));
+        }
+    }, [listing, user]);
 
     const handleDelete = async () => {
         if (!confirm('Delete this listing?')) return;
@@ -61,10 +70,47 @@ const ListingDetail = () => {
                     </button>
                 )}
             </div>
+
             {user && !isOwner && (
                 <div className="mt-6 pt-6 border-t border-gray-200">
                     <h2 className="text-sm font-medium text-gray-900 mb-3">Chat with seller</h2>
                     <ChatBox listingId={listing.listingId} otherEmail={listing.sellerEmail} />
+                </div>
+            )}
+
+            {user && isOwner && (
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                    <h2 className="text-sm font-medium text-gray-900 mb-3 flex items-center gap-1.5">
+                        <MessageCircle size={16} />
+                        Messages about this listing
+                    </h2>
+
+                    {conversations.length === 0 ? (
+                        <p className="text-sm text-gray-400">No one has messaged you about this listing yet.</p>
+                    ) : !activeChat ? (
+                        <div className="border border-gray-200 rounded-xl divide-y divide-gray-100">
+                            {conversations.map((c) => (
+                                <button
+                                    key={c.otherEmail}
+                                    onClick={() => setActiveChat(c.otherEmail)}
+                                    className="w-full text-left px-4 py-3 hover:bg-gray-50 cursor-pointer"
+                                >
+                                    <p className="text-sm font-medium text-gray-900">{c.otherEmail}</p>
+                                    <p className="text-xs text-gray-500 truncate">{c.lastMessage}</p>
+                                </button>
+                            ))}
+                        </div>
+                    ) : (
+                        <div>
+                            <button
+                                onClick={() => setActiveChat(null)}
+                                className="text-xs text-blue-600 mb-2 cursor-pointer hover:underline"
+                            >
+                                ← Back to conversations
+                            </button>
+                            <ChatBox listingId={listing.listingId} otherEmail={activeChat} />
+                        </div>
+                    )}
                 </div>
             )}
         </div>
