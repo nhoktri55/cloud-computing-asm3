@@ -46,24 +46,6 @@ router.post('/', verifyToken, async (req, res) => {
     }
 });
 
-// Get all message of a conservation
-router.get('/:listingId/:otherEmail', verifyToken, async (req, res) => {
-    const { listingId, otherEmail } = req.params;
-    const conversationId = getConversationId(listingId, req.user.email, otherEmail);
-
-    try {
-        const result = await docClient.send(new QueryCommand({
-            TableName: 'BoardGameTrade-Messages',
-            KeyConditionExpression: 'conversationId = :cid',
-            ExpressionAttributeValues: { ':cid': conversationId },
-        }));
-        res.json(result.Items);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Failed to fetch messages' });
-    }
-});
-
 // Get the list all coversation of 1 listing (for the use post listing answer)
 router.get('/listing/:listingId', verifyToken, async (req, res) => {
     const { listingId } = req.params;
@@ -88,6 +70,24 @@ router.get('/listing/:listingId', verifyToken, async (req, res) => {
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Failed to fetch conversations' });
+    }
+});
+
+// Get all message of a conservation
+router.get('/:listingId/:otherEmail', verifyToken, async (req, res) => {
+    const { listingId, otherEmail } = req.params;
+    const conversationId = getConversationId(listingId, req.user.email, otherEmail);
+
+    try {
+        const result = await docClient.send(new QueryCommand({
+            TableName: 'BoardGameTrade-Messages',
+            KeyConditionExpression: 'conversationId = :cid',
+            ExpressionAttributeValues: { ':cid': conversationId },
+        }));
+        res.json(result.Items);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Failed to fetch messages' });
     }
 });
 
