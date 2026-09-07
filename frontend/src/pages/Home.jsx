@@ -31,7 +31,10 @@ const Home = () => {
             </div>
 
             {loading ? (
-                <p className="text-gray-400 text-sm">Loading...</p>
+                <div>
+                    <div className="w-7 h-7 border-7 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+                    <p className="text-gray-400 text-sm">Loading...</p>
+                </div>
             ) : filtered.length === 0 ? (
                 <p className="text-gray-400 text-sm">No listings found.</p>
             ) : (

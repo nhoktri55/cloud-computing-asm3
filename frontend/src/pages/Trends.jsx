@@ -24,7 +24,10 @@ export default function Trends() {
             </div>
 
             {loading ? (
-                <p className="text-gray-400 text-sm">Loading trends...</p>
+                <div>
+                    <div className="w-7 h-7 border-7 border-gray-200 border-t-blue-500 rounded-full animate-spin" />
+                    <p className="text-gray-400 text-sm">Loading trends...</p>
+                </div>
             ) : error ? (
                 <p className="text-red-600 text-sm">{error}</p>
             ) : trends.length === 0 ? (

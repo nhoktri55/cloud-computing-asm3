@@ -39,7 +39,7 @@ const Register = () => {
                     value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })}
                 />
                 {error && <p className="text-sm text-red-600">{error}</p>}
-                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg text-sm">
+                <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg text-sm cursor-pointer">
                     Sign up
                 </button>
             </form>
