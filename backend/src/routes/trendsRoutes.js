@@ -1,5 +1,7 @@
 const express = require('express');
 const { AthenaClient, StartQueryExecutionCommand, GetQueryExecutionCommand, GetQueryResultsCommand } = require('@aws-sdk/client-athena');
+
+// [10] Amazon Web Services, "Running SQL queries using Amazon Athena," Amazon Athena User Guide.
 const athena = new AthenaClient({ region: process.env.AWS_REGION });
 const router = express.Router();
 

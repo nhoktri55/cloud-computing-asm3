@@ -1,3 +1,4 @@
+// [14] BoardGameGeek, "Using the XML API," BoardGameGeek Wiki.
 const BGG_BASE = "https://boardgamegeek.com/xmlapi2";
 
 function decodeEntities(str) {

@@ -5,6 +5,8 @@ const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, PutCommand, GetCommand } = require('@aws-sdk/lib-dynamodb');
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
+// [11] Auth0, "jsonwebtoken," npm.
+// [12] D. St-Amand, "bcryptjs," npm.
 const router = express.Router();
 
 //API to register
@@ -61,6 +63,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid email or password' });
         }
 
+        // [11] JWT sign pattern based on jsonwebtoken documentation
         // Create JWT token, storage email & name, expired after 24h
         const token = jwt.sign(
             { email: result.Item.email, name: result.Item.name },

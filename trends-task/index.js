@@ -5,6 +5,8 @@ const { S3Client, PutObjectCommand } = require('@aws-sdk/client-s3');
 const REGION = 'us-east-1';
 const RESULTS_BUCKET = 'boardgametrade-images-s3924585';
 
+// [3] Amazon Web Services, "DynamoDB examples using SDK for JavaScript (v3)."
+// [4] Amazon Web Services, "Amazon S3 examples using SDK for JavaScript (v3)."
 const dynamo = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
 const s3 = new S3Client({ region: REGION });
 

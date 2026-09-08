@@ -6,6 +6,9 @@ const { verifyToken } = require('./authRoutes');
 const { getGameById } = require('../utils/bggClient');
 
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+
+// [2] Amazon Web Services, "DynamoDB document client," AWS SDK for JavaScript v3 Developer Guide.
+// [3] Amazon Web Services, "DynamoDB examples using SDK for JavaScript (v3)."
 const docClient = DynamoDBDocumentClient.from(client);
 
 const router = express.Router();
@@ -20,6 +23,7 @@ router.post('/', verifyToken, async (req, res) => {
 
     try {
         // Get metadata live from BGG
+        // [14] BoardGameGeek, "Using the XML API."
         const game = await getGameById(gameId);
 
         if (!game) {

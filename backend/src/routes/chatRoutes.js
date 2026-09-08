@@ -3,7 +3,11 @@ const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, PutCommand, QueryCommand, ScanCommand } = require('@aws-sdk/lib-dynamodb');
 const { verifyToken } = require('./authRoutes');
 
+
 const client = new DynamoDBClient({ region: process.env.AWS_REGION });
+
+// [2] Amazon Web Services, "DynamoDB document client."
+// [3] Amazon Web Services, "DynamoDB examples using SDK for JavaScript (v3)."
 const docClient = DynamoDBDocumentClient.from(client);
 
 const router = express.Router();

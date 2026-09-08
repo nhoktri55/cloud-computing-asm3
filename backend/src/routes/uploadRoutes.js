@@ -5,6 +5,9 @@ const { randomUUID } = require('crypto');
 const { verifyToken } = require('./authRoutes');
 
 const s3 = new S3Client({ region: process.env.AWS_REGION });
+
+// [13] Multer contributors, "multer," npm.
+// [4] Amazon Web Services, "Amazon S3 examples using SDK for JavaScript (v3)."
 const upload = multer({ storage: multer.memoryStorage() });
 
 const router = express.Router();
